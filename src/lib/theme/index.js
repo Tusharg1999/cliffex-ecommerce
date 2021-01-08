@@ -1,8 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const appTheme = {
-    appDark: '#06BA63',
-    appLight: '#0FFF95',
+    primary: '#06BA63',
+    appLight: '#E6E8E4',
     appBlack: '#00000',
     appWhite: '#fffff'
 };
