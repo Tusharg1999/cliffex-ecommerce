@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import styled, { css } from "styled-components";
+import { updateCheckoutList } from "../../store/checkout/action";
 import Button from "../button";
 
 const CardWapper = styled.div`
@@ -48,7 +50,8 @@ const ContentBottomContainer = styled.div`
   align-items: center;
 `;
 
-function Card({ product }) {
+function Card({ product ,addItem}) {
+ 
   return (
     <CardWapper>
       <ImageContainer>
@@ -59,11 +62,15 @@ function Card({ product }) {
         <p>{product.desc}</p>
         <ContentBottomContainer>
           <h3>₹{product.price}</h3>
-          <Button>Add to cart</Button>
+          <Button onClick={()=>addItem(product)}>Add to cart</Button>
         </ContentBottomContainer>
       </ContentContainer>
     </CardWapper>
   );
 }
-
-export default Card;
+function mapActionsToProp(dispatch){
+  return {
+    addItem:(data)=>dispatch(updateCheckoutList(data))
+  }
+}
+export default connect(null,mapActionsToProp)(Card);
