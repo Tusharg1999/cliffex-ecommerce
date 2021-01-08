@@ -1,9 +1,13 @@
 import React from "react";
+import Header from '../../components/header'
 
 function Checkout() {
-  return <div>
+  return (
+    <div>
+      <Header />
       checkout
-  </div>;
+    </div>
+  );
 }
 
 export default Checkout;

@@ -1,20 +1,34 @@
-import React from 'react'
-import { CheckoutContainer, HeaderWrapper, Icon, ImageContainer } from './styles'
-
+import React from "react";
+import {
+  CheckoutContainer,
+  HeaderWrapper,
+  Icon,
+  ImageContainer,
+} from "./styles";
+import { connect } from "react-redux";
 import Bag from "../../assets/icons/bag.svg";
+import { Link } from "react-router-dom";
 
-function Header() {
-    return (
-      <HeaderWrapper>
+function Header({ total }) {
+  return (
+    <HeaderWrapper>
+      <Link to="/">
         <Icon>Shoppex</Icon>
-        <CheckoutContainer>
-          <p>₹300</p>
-          <ImageContainer>
+      </Link>
+      <CheckoutContainer>
+        <p>₹{total}</p>
+        <ImageContainer>
+          <Link to="/checkout">
             <img src={Bag} alt="" />
-          </ImageContainer>
-        </CheckoutContainer>
-      </HeaderWrapper>
-    );
+          </Link>
+        </ImageContainer>
+      </CheckoutContainer>
+    </HeaderWrapper>
+  );
 }
-
-export default Header
+function mapStateToProps(state) {
+  return {
+    total: state.checkout.total,
+  };
+}
+export default connect(mapStateToProps)(Header);

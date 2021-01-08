@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 
 import { appTheme, GlobalStyle } from "./lib/theme";
 import { ApplicationRouter } from "./infrastructure/router";
-import Header from "./components/header";
 import { store } from "./infrastructure/redux";
 
 ReactDOM.render(
@@ -13,7 +12,6 @@ ReactDOM.render(
     <Provider store={store}>
       <ThemeProvider theme={appTheme}>
         <GlobalStyle />
-        <Header />
         <ApplicationRouter />
       </ThemeProvider>
     </Provider>
