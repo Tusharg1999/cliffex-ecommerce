@@ -12,15 +12,18 @@ import {
   CheckoutOrderList,
   ImageContainer,
   CardContent,
+  ImageWapper,
 } from "./styles";
+import { decreament, increament } from "../../store/checkout/action";
 
-function Checkout({ checkoutList, checkoutTotal }) {
+function Checkout({ checkoutList, checkoutTotal, inc, dec }) {
   const [gst, setGst] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
   useEffect(() => {
     let ammount = (5 / 100) * checkoutTotal;
+    ammount.toFixed(2);
     setGst(ammount);
-  }, []);
+  }, [checkoutList]);
 
   useEffect(() => {
     let ammount = checkoutTotal + gst;
@@ -31,9 +34,9 @@ function Checkout({ checkoutList, checkoutTotal }) {
     <div>
       <Header />
       <CheckoutContentWrapper>
-        <CheckoutOrderList>
-          {checkoutList.length > 0 ? (
-            checkoutList.map((el) => (
+        {checkoutList.length > 0 ? (
+          <CheckoutOrderList>
+            {checkoutList.map((el) => (
               <Card>
                 <CardImage>
                   <img src={el.image} alt="" />
@@ -43,20 +46,22 @@ function Checkout({ checkoutList, checkoutTotal }) {
                   <h2>₹{el.price}</h2>
                   <p>{el.desc}</p>
                   <div>
-                    <button>+</button>
+                    <button onClick={() => inc(el)}>+</button>
                     <p>{el.quantity}</p>
-                    <button>-</button>
+                    <button onClick={() => dec(el)}>-</button>
                   </div>
                 </CardContent>
               </Card>
-            ))
-          ) : (
+            ))}
+          </CheckoutOrderList>
+        ) : (
+          <ImageWapper>
             <ImageContainer>
               <img src={Empty} />
               <h1>Empty Cart,Please add Something</h1>
             </ImageContainer>
-          )}
-        </CheckoutOrderList>
+          </ImageWapper>
+        )}
         <CheckoutOrderBill>
           <h1>Order Summary</h1>
           <div>
@@ -80,7 +85,13 @@ function Checkout({ checkoutList, checkoutTotal }) {
           </div>
           <hr />
           <div>
-            <Button>Order now</Button>
+            <Button
+              onClick={() => {
+                alert("You have Sucessfully place your order");
+              }}
+            >
+              Order now
+            </Button>
           </div>
         </CheckoutOrderBill>
       </CheckoutContentWrapper>
@@ -94,4 +105,10 @@ function mapStateToProps(state) {
     checkoutTotal: state.checkout.total,
   };
 }
-export default connect(mapStateToProps)(Checkout);
+function mapActionToProps(dispatch) {
+  return {
+    inc: (product) => dispatch(increament(product)),
+    dec: (product) => dispatch(decreament(product)),
+  };
+}
+export default connect(mapStateToProps, mapActionToProps)(Checkout);

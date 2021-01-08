@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 const CheckoutContentWrapper = styled.div`
 display:flex;
-flex-wrap:wrap;
 hr{
     width:40%;
 }
@@ -14,6 +13,9 @@ button{
     margin-top:20px;
     width:150px;
 }
+@media (max-width:800px){
+    flex-direction:column;
+  }
 `
 const CheckoutOrderList = styled.div`
 overflow-y:auto;
@@ -27,9 +29,15 @@ align-items:center;
   }
 
 `
-
+const ImageWapper = styled.div`
+flex:3;
+min-height:80vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+`
 const Card = styled.div`
-margin-top:20px;
+  margin-top:20px;
   display: flex;
   justify-content:space-between;
   border-radius: 10px;
@@ -40,6 +48,12 @@ margin-top:20px;
   background-color: white;
   &:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
+  @media (max-width:1200px){
+    width:400px;
+  }
+  @media (max-width:500px){
+    width:300px;
   }
   
 `
@@ -91,15 +105,22 @@ flex-direction:column;
   h1{
       margin-bottom:40px;
   }
+  @media (max-width:800px){
+    margin-top:0px;
+    justify-content:center;
+  }
+  
 `
 const CheckoutOrderBillDetails = styled.div`
 display:flex;
+
 `
 const CardImage = styled.div`
 height:100%;
 width:300px;
 img {
     width: 100%;
+    object-fit:fill;
     min-height: 100%;
     opacity: 0.9;
   }
@@ -118,6 +139,14 @@ h1{
 img{
     height:100%;
 }
+@media (max-width:1000px){
+  width:300px;
+  height:400px;
+}
+@media (max-width:600px){
+  width:150px;
+  height:300px;
+}
 `
 
 export {
@@ -127,6 +156,7 @@ export {
   CheckoutOrderBillDetails,
   ImageContainer,
   Card,
+  ImageWapper,
   CardContent,
   CardImage
 }

@@ -11,6 +11,10 @@ const checkoutReducer = function (state = initialState, actions) {
             return { ...state, checkoutList: actions.payload }
         case checkoutActionTypes.SET_TOTAL:
             return { ...state, total: actions.payload }
+        case checkoutActionTypes.INCREASE_QUANTITY:
+            return { ...state, checkoutList: actions.payload }
+        case checkoutActionTypes.DECREASE_QUANTITY:
+            return { ...state, checkoutList: actions.payload }
         default:
             return state;
     }

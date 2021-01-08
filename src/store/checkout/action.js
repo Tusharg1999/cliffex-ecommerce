@@ -12,13 +12,49 @@ function setTotal(payload) {
         payload: payload
     }
 }
+function decreament(product) {
+    return function (dispatch, getState) {
+        const checkoutList = getState().checkout.checkoutList;
+        const index = checkoutList.findIndex(x => x.name === product.name);
+        if (checkoutList[index].quantity > 0) {
+            const object = {
+                ...product,
+                quantity: product.quantity - 1
+            }
+            checkoutList[index] = object;
+            dispatch({
+                type: checkoutActionTypes.DECREASE_QUANTITY,
+                payload: checkoutList
+            })
+            dispatch(updateTotal())
+        }
+
+    }
+}
+
+function increament(product) {
+    return function (dispatch, getState) {
+        const checkoutList = getState().checkout.checkoutList;
+        const object = {
+            ...product,
+            quantity: product.quantity + 1
+        }
+        const index = checkoutList.findIndex(x => x.name === product.name);
+        checkoutList[index] = object;
+        dispatch({
+            type: checkoutActionTypes.INCREASE_QUANTITY,
+            payload: checkoutList
+        })
+        dispatch(updateTotal())
+    }
+}
 
 function updateTotal() {
     return function (dispatch, getState) {
         const checkoutList = getState().checkout.checkoutList;
         let total = 0;
         checkoutList.forEach(el => {
-            total = total + el.price*el.quantity ;
+            total = total + el.price * el.quantity;
         })
         dispatch(setTotal(total))
     }
@@ -57,4 +93,4 @@ function updateCheckoutList(data) {
     }
 }
 
-export { updateCheckoutList };
+export { updateCheckoutList, increament, decreament };
