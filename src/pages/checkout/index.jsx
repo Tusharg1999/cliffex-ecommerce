@@ -20,15 +20,30 @@ function Checkout({ checkoutList, checkoutTotal, inc, dec }) {
   const [gst, setGst] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
   useEffect(() => {
-    let ammount = (5 / 100) * checkoutTotal;
-    ammount.toFixed(2);
-    setGst(ammount);
-  }, [checkoutList]);
+    setGst(getGst());
+  }, []);
 
   useEffect(() => {
-    let ammount = checkoutTotal + gst;
-    setGrandTotal(ammount);
+    setGrandTotal(getTotal);
   }, []);
+
+  function updateGst() {
+    setGst(getGst());
+  }
+  function updateTotal() {
+    setGrandTotal(getTotal());
+  }
+
+  function getTotal() {
+    let ammount = checkoutTotal + gst;
+    return ammount;
+  }
+
+  function getGst() {
+    let ammount = (5 / 100) * checkoutTotal;
+    ammount.toFixed(2);
+    return ammount;
+  }
 
   return (
     <div>
@@ -37,7 +52,7 @@ function Checkout({ checkoutList, checkoutTotal, inc, dec }) {
         {checkoutList.length > 0 ? (
           <CheckoutOrderList>
             {checkoutList.map((el) => (
-              <Card>
+              <Card key={el.image}>
                 <CardImage>
                   <img src={el.image} alt="" />
                 </CardImage>
@@ -46,9 +61,25 @@ function Checkout({ checkoutList, checkoutTotal, inc, dec }) {
                   <h2>₹{el.price}</h2>
                   <p>{el.desc}</p>
                   <div>
-                    <button onClick={() => inc(el)}>+</button>
+                    <button
+                      onClick={() => {
+                        updateTotal();
+                        updateGst();
+                        inc(el);
+                      }}
+                    >
+                      +
+                    </button>
                     <p>{el.quantity}</p>
-                    <button onClick={() => dec(el)}>-</button>
+                    <button
+                      onClick={() => {
+                         updateTotal();
+                         updateGst();
+                        dec(el);
+                      }}
+                    >
+                      -
+                    </button>
                   </div>
                 </CardContent>
               </Card>
